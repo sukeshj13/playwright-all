@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Demo Sandbox & Testing Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- Top Navbar -->
+    <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button id="sidebar-toggle" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+                <div class="flex items-center space-x-2">
+                    <div class="bg-brand-600 text-white p-2 rounded-xl flex items-center justify-center shadow-md shadow-brand-500/20">
+                        <i data-lucide="box" class="w-5 h-5"></i>
+                    </div>
+                    <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">TestSandbox Pro</span>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <!-- Search Quick Trigger -->
+                <div class="hidden sm:flex items-center bg-slate-100 dark:bg-slate-700/50 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-sm text-slate-400 space-x-2 cursor-pointer hover:border-brand-500 transition-colors" onclick="switchTab('data-table')">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                    <span>Search records...</span>
+                    <kbd class="bg-white dark:bg-slate-800 px-1.5 py-0.5 text-xs rounded border border-slate-200 dark:border-slate-600 font-mono">⌘K</kbd>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="Toggle Theme">
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                </button>
+
+                <!-- Cart Button with Badge -->
+                <button onclick="switchTab('ecommerce')" class="relative p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+                </button>
+
+                <!-- User Profile Dropdown Trigger -->
+                <div class="relative">
+                    <button onclick="toggleProfileMenu()" class="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                        <img src="https://placehold.co/100x100/6366f1/ffffff?text=JD" alt="User Avatar" class="w-8 h-8 rounded-full ring-2 ring-brand-500/20">
+                        <span class="hidden md:inline font-medium text-sm">Jane Doe</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+                    <!-- Dropdown -->
+                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-1 z-50">
+                        <a href="#" onclick="switchTab('settings'); toggleProfileMenu();" class="flex items-center space-x-2 px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                            <span>Profile Settings</span>
+                        </a>
+                        <a href="#" onclick="switchTab('feedback'); toggleProfileMenu();" class="flex items-center space-x-2 px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200">
+                            <i data-lucide="message-square-code" class="w-4 h-4"></i>
+                            <span>Feedback</span>
+                        </a>
+                        <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                        <a href="#" onclick="showNotification('Logged out simulation successfully.', 'info'); toggleProfileMenu();" class="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                            <span>Log out</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 flex max-w-7xl mx-auto w-full">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-40 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 transform -translate-x-full md:translate-x-0 transition-transform duration-200 flex flex-col pt-16 md:pt-0">
+            <div class="p-4 space-y-1 flex-1">
+                <div class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Navigation</div>
+                
+                <button onclick="switchTab('dashboard')" data-tab="dashboard" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    <span>Dashboard Overview</span>
+                </button>
+
+                <button onclick="switchTab('data-table')" data-tab="data-table" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50">
+                    <i data-lucide="database" class="w-5 h-5"></i>
+                    <span>Mock Data Table</span>
+                </button>
+
+                <button onclick="switchTab('ecommerce')" data-tab="ecommerce" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span>Product Catalog</span>
+                </button>
+
+                <button onclick="switchTab('feedback')" data-tab="feedback" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                    <span>Feedback Form</span>
+                </button>
+
+                <button onclick="switchTab('settings')" data-tab="settings" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span>Profile Settings</span>
+                </button>
+
+                <div class="pt-6 px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Testing Controls</div>
+                <button onclick="triggerRandomToast()" class="w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors">
+                    <i data-lucide="bell" class="w-4 h-4"></i>
+                    <span>Trigger Test Toast</span>
+                </button>
+                <button onclick="resetAllData()" class="w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    <span>Reset Mock State</span>
+                </button>
+            </div>
+
+            <!-- Sidebar Footer Info -->
+            <div class="p-4 border-t border-slate-200 dark:border-slate-700">
+                <div class="bg-slate-100 dark:bg-slate-700/50 p-3 rounded-xl flex items-center space-x-3">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <div class="text-xs">
+                        <p class="font-medium text-slate-700 dark:text-slate-200">Sandbox v2.4 Active</p>
+                        <p class="text-slate-400">All tests operating normally</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-full overflow-hidden">
+
+            <!-- TAB 1: DASHBOARD OVERVIEW -->
+            <section id="tab-dashboard" class="tab-content space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">Dashboard Overview</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Real-time system telemetry and mock performance metrics.</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="refreshDashboardMetrics()" class="inline-flex items-center space-x-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-2 rounded-xl text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition-colors">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                            <span>Refresh Data</span>
+                        </button>
+                        <button onclick="showNotification('Exporting telemetry report...', 'success')" class="inline-flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white px-3 py-2 rounded-xl text-sm font-medium shadow-md shadow-brand-500/20 transition-colors">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            <span>Export Report</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Users</span>
+                            <div class="p-2 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl">
+                                <i data-lucide="users" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-baseline justify-between">
+                            <span id="stat-users" class="text-2xl font-bold">24,592</span>
+                            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-full">+12.4%</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Active Sessions</span>
+                            <div class="p-2 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-xl">
+                                <i data-lucide="activity" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-baseline justify-between">
+                            <span id="stat-sessions" class="text-2xl font-bold">1,429</span>
+                            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-full">+3.2%</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Conversion Rate</span>
+                            <div class="p-2 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-xl">
+                                <i data-lucide="trending-up" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-baseline justify-between">
+                            <span id="stat-conversion" class="text-2xl font-bold">4.82%</span>
+                            <span class="text-xs font-semibold text-rose-600 bg-rose-50 dark:bg-rose-900/30 px-2 py-0.5 rounded-full">-0.4%</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Server Latency</span>
+                            <div class="p-2 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl">
+                                <i data-lucide="server" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-baseline justify-between">
+                            <span id="stat-latency" class="text-2xl font-bold">28 ms</span>
+                            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-full">Optimal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts & Quick Feed section -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Main Chart simulation card -->
+                    <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg">Traffic & Throughput Analytics</h3>
+                                <p class="text-xs text-slate-400">Simulated load testing metrics over last 7 days</p>
+                            </div>
+                            <div class="flex space-x-1 bg-slate-100 dark:bg-slate-700 p-1 rounded-xl text-xs font-medium">
+                                <button class="px-3 py-1 rounded-lg bg-white dark:bg-slate-600 shadow-sm">Weekly</button>
+                                <button class="px-3 py-1 rounded-lg text-slate-500 dark:text-slate-300">Monthly</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Simulated Bar / Area Chart using SVG/Divs -->
+                        <div class="h-64 flex items-end justify-between gap-2 pt-6 pb-2 px-2 border-b border-slate-100 dark:border-slate-700">
+                            <div class="w-full flex flex-col items-center gap-2 h-full justify-end group">
+                                <div class="w-full bg-brand-500/20 group-hover:bg-brand-500 rounded-t-lg transition-all h-[45%]"></div>
+                                <span class="text-xs text-slate-400">Mon</span>
+                            </div>
+                            <div class="w-full flex flex-col items-center gap-2 h-full justify-end group">
+                                <div class="w-full bg-brand-500/20 group-hover:bg-brand-500 rounded-t-lg transition-all h-[65%]"></div>
+                                <span class="text-xs text-slate-400">Tue</span>
+                            </div>
+                            <div class="w-full flex flex-col items-center gap-2 h-full justify-end group">
+                                <div class="w-full bg-brand-500/20 group-hover:bg-brand-500 rounded-t-lg transition-all h-[55%]"></div>
+                                <span class="text-xs text-slate-400">Wed</span>
+                            </div>
+                            <div class="w-full flex flex-col items-center gap-2 h-full justify-end group">
+                                <div class="w-full bg-brand-500/20 group-hover:bg-brand-500 rounded-t-lg transition-all h-[80%]"></div>
+                                <span class="text-xs text-slate-400">Thu</span>
+                            </div>
+                            <div class="w-full flex flex-col items-center gap-2 h-full justify-end group">
+                                <div class="w-full bg-brand-500/20 group-hover:bg-brand-500 rounded-t-lg transition-all h-[95%]"></div>
+                                <span class="text-xs text-slate-400">Fri</span>
+                            </div>
+                            <div class="w-full flex flex-col items-center gap-2 h-full justify-end group">
+                                <div class="w-full bg-brand-500/20 group-hover:bg-brand-500 rounded-t-lg transition-all h-[70%]"></div>
+                                <span class="text-xs text-slate-400">Sat</span>
+                            </div>
+                            <div class="w-full flex flex-col items-center gap-2 h-full justify-end group">
+                                <div class="w-full bg-brand-500/20 group-hover:bg-brand-500 rounded-t-lg transition-all h-[60%]"></div>
+                                <span class="text-xs text-slate-400">Sun</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 text-xs text-slate-500">
+                            <span>Peak Load: 4,820 req/sec</span>
+                            <span class="text-emerald-600 font-medium flex items-center gap-1">
+                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> All endpoints healthy
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Feed -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Activity Stream</h3>
+                            <p class="text-xs text-slate-400 mb-4">Latest actions registered in sandbox</p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="p-2 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 rounded-lg mt-0.5">
+                                        <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold">New test user registered</p>
+                                        <p class="text-xs text-slate-400">alex.test@example.com</p>
+                                        <span class="text-[10px] text-slate-400">2 mins ago</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="p-2 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 rounded-lg mt-0.5">
+                                        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold">Order #9482 placed</p>
+                                        <p class="text-xs text-slate-400">Wireless Headphones ($129.00)</p>
+                                        <span class="text-[10px] text-slate-400">14 mins ago</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="p-2 bg-amber-50 dark:bg-amber-500/10 text-amber-600 rounded-lg mt-0.5">
+                                        <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold">API rate warning limit</p>
+                                        <p class="text-xs text-slate-400">Endpoint /v1/search (85%)</p>
+                                        <span class="text-[10px] text-slate-400">1 hour ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="switchTab('data-table')" class="mt-4 w-full py-2 bg-slate-100 dark:bg-slate-700/50 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold rounded-xl transition-colors">
+                            View Full Audit Log
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: MOCK DATA TABLE -->
+            <section id="tab-data-table" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">Mock Data Directory</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Advanced datagrid supporting live search, status filtering, sorting, and pagination.</p>
+                    </div>
+                    <button onclick="openAddRecordModal()" class="inline-flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-md shadow-brand-500/20 transition-colors">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Add New Record</span>
+                    </button>
+                </div>
+
+                <!-- Controls Bar -->
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <div class="relative w-full sm:w-72">
+                        <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-slate-400"></i>
+                        <input type="text" id="table-search" oninput="filterTableData()" placeholder="Search by name, email..." class="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div class="flex items-center space-x-3 w-full sm:w-auto">
+                        <select id="status-filter" onchange="filterTableData()" class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">All Statuses</option>
+                            <option value="Active">Active</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+
+                        <select id="role-filter" onchange="filterTableData()" class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">All Roles</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Developer">Developer</option>
+                            <option value="Designer">Designer</option>
+                            <option value="Tester">Tester</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table Container -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                    <th class="p-4">User</th>
+                                    <th class="p-4">Role</th>
+                                    <th class="p-4">Status</th>
+                                    <th class="p-4">Last Active</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-slate-200 dark:divide-slate-700 text-sm">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination Footer -->
+                    <div class="p-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
+                        <span id="table-count-info">Showing 1-5 of 12 records</span>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="changePage(-1)" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50" id="prev-btn">Previous</button>
+                            <button onclick="changePage(1)" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50" id="next-btn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: E-COMMERCE PRODUCT CATALOG -->
+            <section id="tab-ecommerce" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">Sandbox Product Store</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Interactive product catalog with working cart state and checkout simulation.</p>
+                    </div>
+                    <button onclick="openCartDrawer()" class="inline-flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-md shadow-brand-500/20 transition-colors">
+                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                        <span>View Cart (<span id="cart-count-label">0</span>)</span>
+                    </button>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- TAB 4: FEEDBACK FORM -->
+            <section id="tab-feedback" class="tab-content hidden space-y-6">
+                <div class="max-w-2xl mx-auto">
+                    <div class="text-center mb-8">
+                        <h1 class="text-2xl font-bold tracking-tight">Interactive Feedback & Bug Report</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Test form validation, live character limits, and asynchronous feedback handling.</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <form id="feedback-form" onsubmit="handleFeedbackSubmit(event)" class="space-y-6" novalidate>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Your Name <span class="text-rose-500">*</span></label>
+                                    <input type="text" id="fb-name" required placeholder="Jane Doe" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                    <p id="err-name" class="text-xs text-rose-500 mt-1 hidden">Please enter your name.</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Email Address <span class="text-rose-500">*</span></label>
+                                    <input type="email" id="fb-email" required placeholder="jane@example.com" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                    <p id="err-email" class="text-xs text-rose-500 mt-1 hidden">Please enter a valid email address.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Category</label>
+                                    <select id="fb-category" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                        <option value="bug">Bug Report</option>
+                                        <option value="feature">Feature Request</option>
+                                        <option value="general">General Feedback</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Satisfaction Rating</label>
+                                    <div class="flex items-center space-x-2 pt-2" id="rating-stars">
+                                        <button type="button" onclick="setRating(1)" class="text-amber-400 focus:outline-none"><i data-lucide="star" class="w-6 h-6 fill-amber-400"></i></button>
+                                        <button type="button" onclick="setRating(2)" class="text-amber-400 focus:outline-none"><i data-lucide="star" class="w-6 h-6 fill-amber-400"></i></button>
+                                        <button type="button" onclick="setRating(3)" class="text-amber-400 focus:outline-none"><i data-lucide="star" class="w-6 h-6 fill-amber-400"></i></button>
+                                        <button type="button" onclick="setRating(4)" class="text-amber-400 focus:outline-none"><i data-lucide="star" class="w-6 h-6 fill-amber-400"></i></button>
+                                        <button type="button" onclick="setRating(5)" class="text-amber-400 focus:outline-none"><i data-lucide="star" class="w-6 h-6 fill-amber-400"></i></button>
+                                        <span id="rating-text" class="text-xs font-semibold ml-2 text-slate-500">5/5 Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Message / Details <span class="text-rose-500">*</span></label>
+                                <textarea id="fb-message" required rows="4" oninput="updateCharCount(this)" placeholder="Describe your test experience or issue..." class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                                <div class="flex justify-between items-center mt-1">
+                                    <p id="err-message" class="text-xs text-rose-500 hidden">Please enter a message (at least 10 chars).</p>
+                                    <span id="char-counter" class="text-xs text-slate-400 ml-auto">0 / 500 characters</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="fb-subscribe" class="rounded border-slate-300 text-brand-600 focus:ring-brand-500 w-4 h-4">
+                                <label for="fb-subscribe" class="text-sm text-slate-600 dark:text-slate-300">Receive update notifications regarding this test report</label>
+                            </div>
+
+                            <button type="submit" id="fb-submit-btn" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl shadow-lg shadow-brand-500/20 transition-colors flex items-center justify-center space-x-2">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                                <span>Submit Feedback</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: PROFILE SETTINGS -->
+            <section id="tab-settings" class="tab-content hidden space-y-6">
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">Account Settings</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Manage your profile details, security preferences, and notification channels.</p>
+                    </div>
+
+                    <!-- Profile Card -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                        <h3 class="font-bold text-lg border-b border-slate-100 dark:border-slate-700 pb-4">Personal Information</h3>
+                        
+                        <div class="flex items-center space-x-4">
+                            <img src="https://placehold.co/120x120/6366f1/ffffff?text=JD" alt="Avatar" class="w-20 h-20 rounded-full ring-4 ring-brand-500/20">
+                            <div>
+                                <button onclick="showNotification('Avatar upload simulated successfully!', 'success')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-xs font-semibold rounded-xl transition-colors">Change Avatar</button>
+                                <p class="text-xs text-slate-400 mt-2">JPG, GIF or PNG. Max size of 800K</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">First Name</label>
+                                <input type="text" value="Jane" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Last Name</label>
+                                <input type="text" value="Doe" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Email Address</label>
+                            <input type="email" value="jane.doe@example.com" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm">
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button onclick="showNotification('Profile updated successfully!', 'success')" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl text-sm shadow-md shadow-brand-500/20 transition-colors">Save Changes</button>
+                        </div>
+                    </div>
+
+                    <!-- Security / Notifications Settings -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+                        <h3 class="font-bold text-lg border-b border-slate-100 dark:border-slate-700 pb-4">Preferences & Notifications</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium text-sm">Email Digest</p>
+                                    <p class="text-xs text-slate-400">Receive weekly summary reports of sandbox testing metrics</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
+                                </label>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium text-sm">Two-Factor Authentication (2FA)</p>
+                                    <p class="text-xs text-slate-400">Secure your test account with TOTP authenticator</p>
+                                </div>
+                                <button onclick="showNotification('2FA setup wizard initialized', 'info')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-xs font-semibold rounded-xl transition-colors">Configure</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Add Record Modal -->
+    <div id="add-record-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 max-w-md w-full rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                <h3 class="font-bold text-lg">Add New Sandbox Record</h3>
+                <button onclick="closeAddRecordModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form onsubmit="handleAddNewRecord(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Full Name</label>
+                    <input type="text" id="modal-name" required placeholder="Alex Mercer" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Email Address</label>
+                    <input type="email" id="modal-email" required placeholder="alex@example.com" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Role</label>
+                    <select id="modal-role" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm">
+                        <option value="Developer">Developer</option>
+                        <option value="Tester">Tester</option>
+                        <option value="Designer">Designer</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Status</label>
+                    <select id="modal-status" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm">
+                        <option value="Active">Active</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Suspended">Suspended</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeAddRecordModal()" class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-medium shadow-md shadow-brand-500/20">Save Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Drawer Modal -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex justify-end">
+        <div class="bg-white dark:bg-slate-800 max-w-md w-full h-full flex flex-col shadow-2xl">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-600"></i>
+                    <h3 class="font-bold text-lg">Your Shopping Cart</h3>
+                </div>
+                <button onclick="closeCartDrawer()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 divide-y divide-slate-100 dark:divide-slate-700">
+                <!-- Cart items populated by JS -->
+            </div>
+
+            <div class="p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 space-y-4">
+                <div class="flex items-center justify-between text-base font-bold">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <button onclick="simulateCheckout()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl shadow-lg shadow-brand-500/20 transition-colors flex items-center justify-center space-x-2">
+                    <i data-lucide="credit-card" class="w-4 h-4"></i>
+                    <span>Proceed to Checkout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-3 pointer-events-none"></div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Mock State Data
+        let mockUsers = [
+            { id: 1, name: 'Alice Johnson', email: 'alice.j@example.com', role: 'Admin', status: 'Active', lastActive: '10 mins ago' },
+            { id: 2, name: 'Bob Smith', email: 'bob.smith@example.com', role: 'Developer', status: 'Active', lastActive: '1 hour ago' },
+            { id: 3, name: 'Charlie Davis', email: 'charlie.d@example.com', role: 'Designer', status: 'Pending', lastActive: '2 days ago' },
+            { id: 4, name: 'Diana Prince', email: 'diana.p@example.com', role: 'Tester', status: 'Active', lastActive: 'Just now' },
+            { id: 5, name: 'Evan Wright', email: 'evan.w@example.com', role: 'Developer', status: 'Suspended', lastActive: '1 week ago' },
+            { id: 6, name: 'Fiona Gallagher', email: 'fiona.g@example.com', role: 'Tester', status: 'Active', lastActive: '3 hours ago' }
+        ];
+
+        let mockProducts = [
+            { id: 1, name: 'Wireless Pro Headphones', price: 129.00, category: 'Audio', rating: 4.8, image: 'https://placehold.co/400x300/6366f1/ffffff?text=Headphones' },
+            { id: 2, name: 'Ergonomic Mechanical Keyboard', price: 89.50, category: 'Accessories', rating: 4.9, image: 'https://placehold.co/400x300/4f46e5/ffffff?text=Keyboard' },
+            { id: 3, name: 'UltraWide 4K Monitor 27"', price: 399.00, category: 'Displays', rating: 4.7, image: 'https://placehold.co/400x300/4338ca/ffffff?text=Monitor' },
+            { id: 4, name: 'Precision Gaming Mouse', price: 59.99, category: 'Accessories', rating: 4.6, image: 'https://placehold.co/400x300/818cf8/ffffff?text=Mouse' },
+            { id: 5, name: 'USB-C Multiport Hub', price: 45.00, category: 'Accessories', rating: 4.5, image: 'https://placehold.co/400x300/312e81/ffffff?text=Hub' },
+            { id: 6, name: 'Noise-Canceling Earbuds', price: 89.00, category: 'Audio', rating: 4.7, image: 'https://placehold.co/400x300/6366f1/ffffff?text=Earbuds' }
+        ];
+
+        let cart = [];
+        let currentPage = 1;
+        const pageSize = 4;
+        let currentRating = 5;
+
+        // Initialization on window load
+        window.onload = function () {
+            lucide.createIcons();
+            renderTable();
+            renderProducts();
+            initThemeToggle();
+            
+            // Sidebar mobile toggle listener
+            document.getElementById('sidebar-toggle').addEventListener('click', () => {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('-translate-x-full');
+            });
+        };
+
+        // Theme management
+        function initThemeToggle() {
+            const toggleBtn = document.getElementById('theme-toggle');
+            const htmlEl = document.documentElement;
+            
+            toggleBtn.addEventListener('click', () => {
+                if (htmlEl.classList.contains('dark')) {
+                    htmlEl.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    showNotification('Switched to Light mode', 'info');
+                } else {
+                    htmlEl.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    showNotification('Switched to Dark mode', 'info');
+                }
+            });
+        }
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-50', 'dark:bg-brand-500/10', 'text-brand-600', 'dark:text-brand-400');
+                btn.classList.add('text-slate-600', 'dark:text-slate-300');
+            });
+
+            const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+                activeBtn.classList.add('bg-brand-50', 'dark:bg-brand-500/10', 'text-brand-600', 'dark:text-brand-400');
+            }
+
+            // Close mobile sidebar if open
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Notification Toast System
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgColors = 'bg-emerald-600 text-white';
+            let icon = 'check-circle';
+            if (type === 'info') { bgColors = 'bg-slate-800 text-white dark:bg-slate-700'; icon = 'info'; }
+            if (type === 'error') { bgColors = 'bg-rose-600 text-white'; icon = 'alert-circle'; }
+
+            toast.className = `pointer-events-auto flex items-center space-x-3 px-4 py-3 rounded-2xl shadow-xl ${bgColors} transform translate-y-2 opacity-0 transition-all duration-300`;
+            toast.innerHTML = `
+                <i data-lucide="${icon}" class="w-5 h-5 flex-shrink-0"></i>
+                <span class="text-sm font-medium">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function triggerRandomToast() {
+            const messages = [
+                { msg: 'Test webhook triggered successfully', type: 'success' },
+                { msg: 'Cache cleared for API gateway', type: 'info' },
+                { msg: 'Simulated connection timeout on node 4', type: 'error' }
+            ];
+            const rand = messages[Math.floor(Math.random() * messages.length)];
+            showNotification(rand.msg, rand.type);
+        }
+
+        // Mock Data Table Logic
+        function renderTable() {
+            const searchVal = document.getElementById('table-search').value.toLowerCase();
+            const statusVal = document.getElementById('status-filter').value;
+            const roleVal = document.getElementById('role-filter').value;
+
+            const filtered = mockUsers.filter(u => {
+                const matchSearch = u.name.toLowerCase().includes(searchVal) || u.email.toLowerCase().includes(searchVal);
+                const matchStatus = statusVal === 'all' || u.status === statusVal;
+                const matchRole = roleVal === 'all' || u.role === roleVal;
+                return matchSearch && matchStatus && matchRole;
+            });
+
+            const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const start = (currentPage - 1) * pageSize;
+            const paginated = filtered.slice(start, start + pageSize);
+
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            if (paginated.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400">No matching records found.</td></tr>`;
+            } else {
+                paginated.forEach(u => {
+                    let badgeColor = 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30';
+                    if (u.status === 'Pending') badgeColor = 'bg-amber-50 text-amber-600 dark:bg-amber-900/30';
+                    if (u.status === 'Suspended') badgeColor = 'bg-rose-50 text-rose-600 dark:bg-rose-900/30';
+
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 flex items-center space-x-3">
+                                <img src="https://placehold.co/100x100/6366f1/ffffff?text=${u.name.charAt(0)}" class="w-9 h-9 rounded-full">
+                                <div>
+                                    <p class="font-medium text-slate-900 dark:text-slate-100">${u.name}</p>
+                                    <p class="text-xs text-slate-400">${u.email}</p>
+                                </div>
+                            </td>
+                            <td class="p-4 text-slate-600 dark:text-slate-300 font-medium">${u.role}</td>
+                            <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${badgeColor}">${u.status}</span></td>
+                            <td class="p-4 text-slate-500 text-xs">${u.lastActive}</td>
+                            <td class="p-4 text-right">
+                                <button onclick="deleteRecord(${u.id})" class="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            document.getElementById('table-count-info').innerText = `Showing ${filtered.length ? start + 1 : 0}-${Math.min(start + pageSize, filtered.length)} of ${filtered.length} records`;
+            document.getElementById('prev-btn').disabled = currentPage === 1;
+            document.getElementById('next-btn').disabled = currentPage >= totalPages;
+            lucide.createIcons();
+        }
+
+        function filterTableData() {
+            currentPage = 1;
+            renderTable();
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            renderTable();
+        }
+
+        function openAddRecordModal() {
+            document.getElementById('add-record-modal').classList.remove('hidden');
+        }
+
+        function closeAddRecordModal() {
+            document.getElementById('add-record-modal').classList.add('hidden');
+        }
+
+        function handleAddNewRecord(e) {
+            e.preventDefault();
+            const name = document.getElementById('modal-name').value;
+            const email = document.getElementById('modal-email').value;
+            const role = document.getElementById('modal-role').value;
+            const status = document.getElementById('modal-status').value;
+
+            mockUsers.unshift({
+                id: Date.now(),
+                name,
+                email,
+                role,
+                status,
+                lastActive: 'Just now'
+            });
+
+            closeAddRecordModal();
+            renderTable();
+            showNotification(`Record for ${name} added successfully!`, 'success');
+            e.target.reset();
+        }
+
+        function deleteRecord(id) {
+            mockUsers = mockUsers.filter(u => u.id !== id);
+            renderTable();
+            showNotification('Record deleted successfully.', 'info');
+        }
+
+        // E-Commerce Catalog Logic
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            mockProducts.forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col justify-between group">
+                        <div>
+                            <div class="relative overflow-hidden aspect-video bg-slate-100 dark:bg-slate-900">
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                <span class="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-semibold">${p.category}</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-bold text-base line-clamp-1">${p.name}</h3>
+                                    <div class="flex items-center text-amber-400 text-xs font-bold space-x-1">
+                                        <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                                        <span>${p.rating}</span>
+                                    </div>
+                                </div>
+                                <p class="text-xl font-extrabold text-brand-600">$${p.price.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0">
+                            <button onclick="addToCart(${p.id})" class="w-full py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-brand-600 hover:text-white dark:hover:bg-brand-600 font-medium rounded-xl text-sm transition-colors flex items-center justify-center space-x-2">
+                                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        function addToCart(productId) {
+            const product = mockProducts.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartBadge();
+            showNotification(`Added ${product.name} to cart!`, 'success');
+        }
+
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cart-badge');
+            const label = document.getElementById('cart-count-label');
+
+            label.innerText = totalItems;
+            if (totalItems > 0) {
+                badge.innerText = totalItems;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function openCartDrawer() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-16 text-slate-400"><i data-lucide="shopping-cart" class="w-12 h-12 mx-auto mb-3 opacity-30"></i><p>Your cart is empty.</p></div>`;
+            } else {
+                let subtotal = 0;
+                cart.forEach(item => {
+                    subtotal += item.price * item.quantity;
+                    container.innerHTML += `
+                        py-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <img src="${item.image}" class="w-12 h-12 rounded-xl object-cover">
+                                <div>
+                                    <p class="font-medium text-sm">${item.name}</p>
+                                    <p class="text-xs text-slate-400">$${item.price.toFixed(2)} × ${item.quantity}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="updateQuantity(${item.id}, -1)" class="p-1 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold">-</button>
+                                <span class="text-sm font-medium w-6 text-center">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)" class="p-1 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold">+</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            }
+
+            document.getElementById('cart-drawer').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeCartDrawer() {
+            document.getElementById('cart-drawer').classList.add('hidden');
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+            }
+            updateCartBadge();
+            openCartDrawer();
+        }
+
+        function simulateCheckout() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!', 'error');
+                return;
+            }
+            cart = [];
+            updateCartBadge();
+            closeCartDrawer();
+            showNotification('Order placed successfully! Sandbox simulation completed.', 'success');
+        }
+
+        // Feedback Form Validation Logic
+        function setRating(rating) {
+            currentRating = rating;
+            const labels = ['', '1/2 Poor', '2/2 Fair', '3/2 Good', '4/5 Very Good', '5/5 Excellent'];
+            document.getElementById('rating-text').innerText = labels[rating];
+            // Update star icons visually
+            const buttons = document.querySelectorAll('#rating-stars button');
+            buttons.forEach((btn, index) => {
+                const icon = btn.querySelector('i');
+                if (index < rating) {
+                    icon.classList.add('fill-amber-400');
+                    btn.classList.add('text-amber-400');
+                } else {
+                    icon.classList.remove('fill-amber-400');
+                    btn.classList.remove('text-amber-400');
+                }
+            });
+        }
+
+        function updateCharCount(textarea) {
+            const len = textarea.value.length;
+            document.getElementById('char-counter').innerText = `${len} / 500 characters`;
+        }
+
+        function handleFeedbackSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('fb-name').value.trim();
+            const email = document.getElementById('fb-email').value.trim();
+            const message = document.getElementById('fb-message').value.trim();
+
+            let isValid = true;
+
+            if (!name) {
+                document.getElementById('err-name').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('err-name').classList.add('hidden');
+            }
+
+            if (!email || !email.includes('@')) {
+                document.getElementById('err-email').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('err-email').classList.add('hidden');
+            }
+
+            if (!message || message.length < 10) {
+                document.getElementById('err-message').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('err-message').classList.add('hidden');
+            }
+
+            if (!isValid) {
+                showNotification('Please correct the errors in the form.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('fb-submit-btn');
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Submitting...</span>`;
+            lucide.createIcons();
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i><span>Submit Feedback</span>`;
+                lucide.createIcons();
+                document.getElementById('feedback-form').reset();
+                setRating(5);
+                document.getElementById('char-counter').innerText = '0 / 500 characters';
+                showNotification('Feedback submitted successfully! Thank you.', 'success');
+            }, 1000);
+        }
+
+        // Global Reset State
+        function resetAllData() {
+            cart = [];
+            updateCartBadge();
+            currentPage = 1;
+            renderTable();
+            showNotification('Mock application state reset successfully.', 'info');
+        }
+
+        function refreshDashboardMetrics() {
+            document.getElementById('stat-users').innerText = (24500 + Math.floor(Math.random() * 200)).toLocaleString();
+            document.getElementById('stat-sessions').innerText = (1400 + Math.floor(Math.random() * 50)).toLocaleString();
+            document.getElementById('stat-latency').innerText = (20 + Math.floor(Math.random() * 15)) + ' ms';
+            showNotification('Dashboard metrics refreshed from server.', 'success');
+        }
+
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Close profile dropdown when clicking outside
+        window.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('profile-dropdown');
+            if (!e.target.closest('button[onclick="toggleProfileMenu()"]') && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
