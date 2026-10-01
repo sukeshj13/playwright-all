@@ -1,0 +1,96 @@
+- generic [active] [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - generic [ref=f1e3]:
+      - generic [ref=f1e4]: TestSandbox Pro
+      - generic [ref=f1e11]:
+        - generic [ref=f1e12] [cursor=pointer]:
+          - generic [ref=f1e16]: Search records...
+          - generic [ref=f1e17]: ⌘K
+        - button "Toggle Theme" [ref=f1e18] [cursor=pointer]
+        - button [ref=f1e21] [cursor=pointer]
+        - button "User Avatar Jane Doe" [ref=f1e28] [cursor=pointer]:
+          - img "User Avatar" [ref=f1e29]
+          - generic [ref=f1e30]: Jane Doe
+  - generic [ref=f1e33]:
+    - complementary [ref=f1e34]:
+      - generic [ref=f1e35]:
+        - generic [ref=f1e36]: Navigation
+        - button "Dashboard Overview" [ref=f1e37] [cursor=pointer]
+        - button "Mock Data Table" [ref=f1e44] [cursor=pointer]
+        - button "Product Catalog" [ref=f1e50] [cursor=pointer]
+        - button "Feedback Form" [ref=f1e55] [cursor=pointer]
+        - button "Profile Settings" [ref=f1e59] [cursor=pointer]
+        - generic [ref=f1e64]: Testing Controls
+        - button "Trigger Test Toast" [ref=f1e65] [cursor=pointer]
+        - button "Reset Mock State" [ref=f1e70] [cursor=pointer]
+      - generic [ref=f1e78]:
+        - paragraph [ref=f1e79]: Sandbox v2.4 Active
+        - paragraph [ref=f1e80]: All tests operating normally
+    - main [ref=f1e81]:
+      - generic [ref=f1e82]:
+        - generic [ref=f1e83]:
+          - generic [ref=f1e84]:
+            - heading "Dashboard Overview" [level=1] [ref=f1e85]
+            - paragraph [ref=f1e86]: Real-time system telemetry and mock performance metrics.
+          - generic [ref=f1e87]:
+            - button "Refresh Data" [ref=f1e88] [cursor=pointer]
+            - button "Export Report" [ref=f1e95] [cursor=pointer]
+        - generic [ref=f1e100]:
+          - generic [ref=f1e101]:
+            - generic [ref=f1e102]: Total Users
+            - generic [ref=f1e110]:
+              - generic [ref=f1e111]: 24,592
+              - generic [ref=f1e112]: +12.4%
+          - generic [ref=f1e113]:
+            - generic [ref=f1e114]: Active Sessions
+            - generic [ref=f1e119]:
+              - generic [ref=f1e120]: 1,429
+              - generic [ref=f1e121]: +3.2%
+          - generic [ref=f1e122]:
+            - generic [ref=f1e123]: Conversion Rate
+            - generic [ref=f1e129]:
+              - generic [ref=f1e130]: 4.82%
+              - generic [ref=f1e131]: "-0.4%"
+          - generic [ref=f1e132]:
+            - generic [ref=f1e133]: Server Latency
+            - generic [ref=f1e139]:
+              - generic [ref=f1e140]: 28 ms
+              - generic [ref=f1e141]: Optimal
+        - generic [ref=f1e142]:
+          - generic [ref=f1e143]:
+            - generic [ref=f1e144]:
+              - generic [ref=f1e145]:
+                - heading "Traffic & Throughput Analytics" [level=3] [ref=f1e146]
+                - paragraph [ref=f1e147]: Simulated load testing metrics over last 7 days
+              - generic [ref=f1e148]:
+                - button "Weekly" [ref=f1e149] [cursor=pointer]
+                - button "Monthly" [ref=f1e150] [cursor=pointer]
+            - generic [ref=f1e151]:
+              - generic [ref=f1e152]: Mon
+              - generic [ref=f1e155]: Tue
+              - generic [ref=f1e158]: Wed
+              - generic [ref=f1e161]: Thu
+              - generic [ref=f1e164]: Fri
+              - generic [ref=f1e167]: Sat
+              - generic [ref=f1e170]: Sun
+            - generic [ref=f1e173]:
+              - generic [ref=f1e174]: "Peak Load: 4,820 req/sec"
+              - generic [ref=f1e175]: All endpoints healthy
+          - generic [ref=f1e179]:
+            - generic [ref=f1e180]:
+              - heading "Activity Stream" [level=3] [ref=f1e181]
+              - paragraph [ref=f1e182]: Latest actions registered in sandbox
+              - generic [ref=f1e183]:
+                - generic [ref=f1e189]:
+                  - paragraph [ref=f1e190]: New test user registered
+                  - paragraph [ref=f1e191]: alex.test@example.com
+                  - text: 2 mins ago
+                - generic [ref=f1e197]:
+                  - paragraph [ref=f1e198]: "Order #9482 placed"
+                  - paragraph [ref=f1e199]: Wireless Headphones ($129.00)
+                  - text: 14 mins ago
+                - generic [ref=f1e204]:
+                  - paragraph [ref=f1e205]: API rate warning limit
+                  - paragraph [ref=f1e206]: Endpoint /v1/search (85%)
+                  - text: 1 hour ago
+            - button "View Full Audit Log" [ref=f1e207] [cursor=pointer]

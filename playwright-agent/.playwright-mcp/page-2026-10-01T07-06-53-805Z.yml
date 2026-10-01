@@ -1,0 +1,96 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: TestSandbox Pro
+      - generic [ref=e11]:
+        - generic [ref=e12] [cursor=pointer]:
+          - generic [ref=e16]: Search records...
+          - generic [ref=e17]: ⌘K
+        - button "Toggle Theme" [ref=e18] [cursor=pointer]
+        - button [ref=e21] [cursor=pointer]
+        - button "User Avatar Jane Doe" [ref=e28] [cursor=pointer]:
+          - img "User Avatar" [ref=e29]
+          - generic [ref=e30]: Jane Doe
+  - generic [ref=e33]:
+    - complementary [ref=e34]:
+      - generic [ref=e35]:
+        - generic [ref=e36]: Navigation
+        - button "Dashboard Overview" [ref=e37] [cursor=pointer]
+        - button "Mock Data Table" [ref=e44] [cursor=pointer]
+        - button "Product Catalog" [ref=e50] [cursor=pointer]
+        - button "Feedback Form" [ref=e55] [cursor=pointer]
+        - button "Profile Settings" [ref=e59] [cursor=pointer]
+        - generic [ref=e64]: Testing Controls
+        - button "Trigger Test Toast" [ref=e65] [cursor=pointer]
+        - button "Reset Mock State" [ref=e70] [cursor=pointer]
+      - generic [ref=e78]:
+        - paragraph [ref=e79]: Sandbox v2.4 Active
+        - paragraph [ref=e80]: All tests operating normally
+    - main [ref=e81]:
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - heading "Dashboard Overview" [level=1] [ref=e85]
+            - paragraph [ref=e86]: Real-time system telemetry and mock performance metrics.
+          - generic [ref=e87]:
+            - button "Refresh Data" [ref=e88] [cursor=pointer]
+            - button "Export Report" [ref=e95] [cursor=pointer]
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - generic [ref=e102]: Total Users
+            - generic [ref=e110]:
+              - generic [ref=e111]: 24,592
+              - generic [ref=e112]: +12.4%
+          - generic [ref=e113]:
+            - generic [ref=e114]: Active Sessions
+            - generic [ref=e119]:
+              - generic [ref=e120]: 1,429
+              - generic [ref=e121]: +3.2%
+          - generic [ref=e122]:
+            - generic [ref=e123]: Conversion Rate
+            - generic [ref=e129]:
+              - generic [ref=e130]: 4.82%
+              - generic [ref=e131]: "-0.4%"
+          - generic [ref=e132]:
+            - generic [ref=e133]: Server Latency
+            - generic [ref=e139]:
+              - generic [ref=e140]: 28 ms
+              - generic [ref=e141]: Optimal
+        - generic [ref=e142]:
+          - generic [ref=e143]:
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - heading "Traffic & Throughput Analytics" [level=3] [ref=e146]
+                - paragraph [ref=e147]: Simulated load testing metrics over last 7 days
+              - generic [ref=e148]:
+                - button "Weekly" [ref=e149] [cursor=pointer]
+                - button "Monthly" [ref=e150] [cursor=pointer]
+            - generic [ref=e151]:
+              - generic [ref=e152]: Mon
+              - generic [ref=e155]: Tue
+              - generic [ref=e158]: Wed
+              - generic [ref=e161]: Thu
+              - generic [ref=e164]: Fri
+              - generic [ref=e167]: Sat
+              - generic [ref=e170]: Sun
+            - generic [ref=e173]:
+              - generic [ref=e174]: "Peak Load: 4,820 req/sec"
+              - generic [ref=e175]: All endpoints healthy
+          - generic [ref=e179]:
+            - generic [ref=e180]:
+              - heading "Activity Stream" [level=3] [ref=e181]
+              - paragraph [ref=e182]: Latest actions registered in sandbox
+              - generic [ref=e183]:
+                - generic [ref=e189]:
+                  - paragraph [ref=e190]: New test user registered
+                  - paragraph [ref=e191]: alex.test@example.com
+                  - text: 2 mins ago
+                - generic [ref=e197]:
+                  - paragraph [ref=e198]: "Order #9482 placed"
+                  - paragraph [ref=e199]: Wireless Headphones ($129.00)
+                  - text: 14 mins ago
+                - generic [ref=e204]:
+                  - paragraph [ref=e205]: API rate warning limit
+                  - paragraph [ref=e206]: Endpoint /v1/search (85%)
+                  - text: 1 hour ago
+            - button "View Full Audit Log" [ref=e207] [cursor=pointer]
