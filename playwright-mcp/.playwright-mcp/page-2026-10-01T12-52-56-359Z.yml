@@ -1,0 +1,102 @@
+- generic [ref=f4e1]:
+  - banner [ref=f4e2]:
+    - generic [ref=f4e3]:
+      - generic [ref=f4e4]: TestSandbox Pro
+      - generic [ref=f4e11]:
+        - generic [ref=f4e12] [cursor=pointer]:
+          - generic [ref=f4e16]: Search records...
+          - generic [ref=f4e17]: ⌘K
+        - button "Toggle Theme" [ref=f4e18] [cursor=pointer]
+        - button [ref=f4e21] [cursor=pointer]
+        - button "User Avatar Jane Doe" [ref=f4e28] [cursor=pointer]:
+          - img "User Avatar" [ref=f4e29]
+          - generic [ref=f4e30]: Jane Doe
+  - generic [ref=f4e33]:
+    - complementary [ref=f4e34]:
+      - generic [ref=f4e35]:
+        - generic [ref=f4e36]: Navigation
+        - button "Dashboard Overview" [ref=f4e37] [cursor=pointer]
+        - button "Mock Data Table" [ref=f4e44] [cursor=pointer]
+        - button "Product Catalog" [active] [ref=f4e50] [cursor=pointer]
+        - button "Feedback Form" [ref=f4e55] [cursor=pointer]
+        - button "Profile Settings" [ref=f4e59] [cursor=pointer]
+        - generic [ref=f4e64]: Testing Controls
+        - button "Trigger Test Toast" [ref=f4e65] [cursor=pointer]
+        - button "Reset Mock State" [ref=f4e70] [cursor=pointer]
+      - generic [ref=f4e78]:
+        - paragraph [ref=f4e79]: Sandbox v2.4 Active
+        - paragraph [ref=f4e80]: All tests operating normally
+    - main [ref=f4e81]:
+      - generic [ref=f4e208]:
+        - generic [ref=f4e209]:
+          - generic [ref=f4e210]:
+            - heading "Sandbox Product Store" [level=1] [ref=f4e211]
+            - paragraph [ref=f4e212]: Interactive product catalog with working cart state and checkout simulation.
+          - button "View Cart (0)" [ref=f4e213] [cursor=pointer]
+        - generic [ref=f4e220]:
+          - generic [ref=f4e221]:
+            - generic [ref=f4e222]:
+              - generic [ref=f4e223]:
+                - img "Wireless Pro Headphones" [ref=f4e224]
+                - generic [ref=f4e225]: Audio
+              - generic [ref=f4e226]:
+                - generic [ref=f4e227]:
+                  - heading "Wireless Pro Headphones" [level=3] [ref=f4e228]
+                  - generic [ref=f4e229]: "4.8"
+                - paragraph [ref=f4e233]: $129.00
+            - button "Add to Cart" [ref=f4e235] [cursor=pointer]
+          - generic [ref=f4e242]:
+            - generic [ref=f4e243]:
+              - generic [ref=f4e244]:
+                - img "Ergonomic Mechanical Keyboard" [ref=f4e245]
+                - generic [ref=f4e246]: Accessories
+              - generic [ref=f4e247]:
+                - generic [ref=f4e248]:
+                  - heading "Ergonomic Mechanical Keyboard" [level=3] [ref=f4e249]
+                  - generic [ref=f4e250]: "4.9"
+                - paragraph [ref=f4e254]: $89.50
+            - button "Add to Cart" [ref=f4e256] [cursor=pointer]
+          - generic [ref=f4e263]:
+            - generic [ref=f4e264]:
+              - generic [ref=f4e265]:
+                - img "UltraWide 4K Monitor 27" [ref=f4e266]
+                - generic [ref=f4e267]: Displays
+              - generic [ref=f4e268]:
+                - generic [ref=f4e269]:
+                  - heading "UltraWide 4K Monitor 27\"" [level=3] [ref=f4e270]
+                  - generic [ref=f4e271]: "4.7"
+                - paragraph [ref=f4e275]: $399.00
+            - button "Add to Cart" [ref=f4e277] [cursor=pointer]
+          - generic [ref=f4e284]:
+            - generic [ref=f4e285]:
+              - generic [ref=f4e286]:
+                - img "Precision Gaming Mouse" [ref=f4e287]
+                - generic [ref=f4e288]: Accessories
+              - generic [ref=f4e289]:
+                - generic [ref=f4e290]:
+                  - heading "Precision Gaming Mouse" [level=3] [ref=f4e291]
+                  - generic [ref=f4e292]: "4.6"
+                - paragraph [ref=f4e296]: $59.99
+            - button "Add to Cart" [ref=f4e298] [cursor=pointer]
+          - generic [ref=f4e305]:
+            - generic [ref=f4e306]:
+              - generic [ref=f4e307]:
+                - img "USB-C Multiport Hub" [ref=f4e308]
+                - generic [ref=f4e309]: Accessories
+              - generic [ref=f4e310]:
+                - generic [ref=f4e311]:
+                  - heading "USB-C Multiport Hub" [level=3] [ref=f4e312]
+                  - generic [ref=f4e313]: "4.5"
+                - paragraph [ref=f4e317]: $45.00
+            - button "Add to Cart" [ref=f4e319] [cursor=pointer]
+          - generic [ref=f4e326]:
+            - generic [ref=f4e327]:
+              - generic [ref=f4e328]:
+                - img "Noise-Canceling Earbuds" [ref=f4e329]
+                - generic [ref=f4e330]: Audio
+              - generic [ref=f4e331]:
+                - generic [ref=f4e332]:
+                  - heading "Noise-Canceling Earbuds" [level=3] [ref=f4e333]
+                  - generic [ref=f4e334]: "4.7"
+                - paragraph [ref=f4e338]: $89.00
+            - button "Add to Cart" [ref=f4e340] [cursor=pointer]
